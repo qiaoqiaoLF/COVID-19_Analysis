@@ -1,0 +1,48 @@
+location,iso_code,last_observation_date,source_name,source_website
+Algeria,DZA,2022-06-28,Ministry of Health via github.com/yasserkaddour/covid19-icu-data-algeria/,https://github.com/yasserkaddour/covid19-icu-data-algeria/
+Argentina,ARG,2022-04-24,"Government of Argentina, via Rodrigo Maidana",https://www.argentina.gob.ar/coronavirus/informes-diarios/reportes
+Australia,AUS,2022-07-07,Official data from states via covidbaseau.com,https://covidbaseau.com
+Austria,AUT,2022-07-07,Austrian Agency for Health and Food Safety,https://covid19-dashboard.ages.at/
+Belgium,BEL,2022-07-07,Sciensano,https://epistat.sciensano.be/
+Bolivia,BOL,2022-07-05,"Ministry of Health, via Sociedatos on GitHub",https://github.com/sociedatos/bo-hospitalizados_por_departamento
+Bulgaria,BGR,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Canada,CAN,2022-07-07,Official data from provinces via covid19tracker.ca,https://covid19tracker.ca/
+Chile,CHL,2022-07-07,"Ministry of Health, via Ministry of Science GitHub repository",https://github.com/MinCiencia/Datos-COVID19
+Croatia,HRV,2022-06-26,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Cyprus,CYP,2022-06-30,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Czechia,CZE,2022-07-07,Ministry of Health,https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19
+Denmark,DNK,2022-07-07,"Statens Serum Institut, covid19-data-denmark on GitHub","https://covid19.ssi.dk/overvagningsdata/download-fil-med-overvaagningdata, https://github.com/mok0/covid19-data-denmark"
+Estonia,EST,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Finland,FIN,2022-07-07,Department of Health and Welfare,https://www.thl.fi/episeuranta/tautitapaukset/coronamap.html
+France,FRA,2022-07-07,Santé publique France,https://www.data.gouv.fr/fr/datasets/donnees-hospitalieres-relatives-a-lepidemie-de-covid-19/
+Germany,DEU,2022-07-08,Robert Koch Institute,https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland/
+Greece,GRC,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Hungary,HUN,2022-04-22,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Iceland,ISL,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Ireland,IRL,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Israel,ISR,2022-07-08,Ministry of Health,https://datadashboard.health.gov.il/COVID-19/
+Italy,ITA,2022-07-07,Ministry of Health and Higher Institute of Health,"https://github.com/pcm-dpc/COVID-19, https://covid19.infn.it/iss/"
+Japan,JPN,2022-06-29,"Ministry of Health, Labour and Welfare",https://www.mhlw.go.jp/stf/seisakunitsuite/newpage_00023.html
+Latvia,LVA,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Liechtenstein,LIE,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Lithuania,LTU,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Luxembourg,LUX,2022-06-30,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Malaysia,MYS,2022-07-07,Ministry of Health,https://github.com/MoH-Malaysia/covid19-public
+Malta,MLT,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Netherlands,NLD,2022-07-07,National Coordination Center Patient Distribution,https://lcps.nu/datafeed/
+Norway,NOR,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Poland,POL,2022-06-29,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Portugal,PRT,2022-06-28,"General Directorate of Health, via Data Science for Social Good Portugal",https://github.com/dssg-pt/covid19pt-data
+Romania,ROU,2022-07-03,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Russia,RUS,2022-07-08,Government of Russia,https://стопкоронавирус.рф/information/
+Serbia,SRB,2022-07-07,Ministry of Health via github.com/aleksandar-jovicic/COVID19-Serbia,https://github.com/aleksandar-jovicic/COVID19-Serbia
+Singapore,SGP,2022-07-03,Ministry of Health,https://covidsitrep.moh.gov.sg/; https://data.gov.sg/dataset/covid-19-hospital-admissions
+Slovakia,SVK,2022-07-02,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+Slovenia,SVN,2022-07-01,European Centre for Disease Prevention and Control,https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19
+South Africa,ZAF,2022-06-25,National Policy Data Observatory (NPDO) at the Council for Scientific and Industrial Research (CSIR),https://docs.google.com/spreadsheets/d/1Ln3FO3E0hz2r_kCCWM6on9Wd18wRvrkiIV-bbE2EDQ0/edit#gid=1044172863
+South Korea,KOR,2022-07-06,"Ministry of Health and Welfare, via WWolf on GitHub",http://ncov.mohw.go.kr/en/bdBoardList.do?brdId=16&brdGubun=161&dataGubun=&ncvContSeq=&contSeq=&board_id=
+Spain,ESP,2022-06-07,"Ministry of Health, Consumption and Social Welfare",https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/capacidadAsistencial.htm
+Sweden,SWE,2022-03-11,Swedish Public Health Agency,https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/statistik-och-analyser/analys-och-prognoser/
+Switzerland,CHE,2022-07-04,Federal Office of Public Health,https://www.covid19.admin.ch/
+United Kingdom,GBR,2022-06-30,Government of the United Kingdom,https://coronavirus.data.gov.uk/details/healthcare
+United States,USA,2022-07-05,U.S. Department of Health & Human Services,https://healthdata.gov/Hospital/COVID-19-Reported-Patient-Impact-and-Hospital-Capa/g62h-syeh
