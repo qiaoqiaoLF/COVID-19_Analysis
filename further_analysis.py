@@ -14,6 +14,7 @@ import load_data
 
 
 def analyze_vaccination_and_hospitalization():
+    #read data
     data_OWID = load_data.read_data("./data/owid-covid-data.csv")
     data_OWID = load_data.extract_data(
         data_OWID,
@@ -31,6 +32,7 @@ def analyze_vaccination_and_hospitalization():
     vac = np.array(data_OWID["people_vaccinated_per_hundred"])
     f_vac = np.array(data_OWID["people_fully_vaccinated_per_hundred"])
 
+    #process data
     valid_icu_vac = (
         (~np.isnan(icu)) * (~np.isnan(total)) * (total > 1) * (~np.isnan(vac))
     )
@@ -49,6 +51,8 @@ def analyze_vaccination_and_hospitalization():
     icu_percentage_f = icu[valid_icu_f] / total[valid_icu_f]
     hosp_percentage_f = hosp[valid_hosp_f] / total[valid_hosp_f]
 
+
+    #regression
     from sklearn.svm import SVR
 
     model = SVR()
