@@ -1,3 +1,5 @@
 .vscode
 .vs
 __pycache__
+covid_dataset
+try.ipynb
