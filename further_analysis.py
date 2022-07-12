@@ -323,14 +323,14 @@ def analyze_policy_and_COVID():
     # date__ = list(date_iter.squeeze())
     # plt.xticks([date__.index('2020-12-01'),date__.index('2021-02-01'),date__.index('2021-03-01'),date__.index('2021-11-01')])
     plt.plot(date_iter.squeeze(),policy_container)
-    plt.show()
+    plt.savefig( "./result/policy_relation_with_date.png")
     
 
 
 
 def main():
-    # analyze_vaccination_and_hospitalization()
-    # analyze_smokers_and_COVID()
+    analyze_vaccination_and_hospitalization()
+    analyze_smokers_and_COVID()
     analyze_policy_and_COVID()
 
 
