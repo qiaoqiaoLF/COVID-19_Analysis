@@ -8,11 +8,10 @@ from folium import plugins
 import plotly.express as px
 import scipy
 import load_data
+import argparse
 
-def analyze_plot():
-    print("please input two columns you want to analyze")
-    column_1 = input("column 1: ")
-    column_2 = input("column 2: ")
+def analyze_plot(column_1,column_2,kerne):
+
     #read data
     data_OWID = load_data.read_data("./data/owid-covid-data.csv")
     data_OWID = load_data.extract_data(data_OWID,[column_1,column_2,'new_cases_per_million'],)
@@ -27,7 +26,7 @@ def analyze_plot():
 
     from sklearn.svm import SVR
 
-    model = SVR()
+    model = SVR(kernel = kerne)
     model.fit(
         b[valid_a_b][a_percentage_b < 5].reshape(-1,1),
         a_percentage_b[a_percentage_b < 5],
@@ -141,7 +140,13 @@ def analyze_smokers_and_COVID():
     plt.savefig("./result/hosp_relation_with_smokers.png")
 
 def main():
-    analyze_plot()
+    parser = argparse.ArgumentParser(description='Funtion : Generate Data')
+    parser.add_argument("column1", type=str, help='properties of column1')
+    parser.add_argument("column2", type=str, help='properties of column2')
+    parser.add_argument("kernel", type=str, help='kernel')
+    args = parser.parse_args()
+    analyze_plot(args.column1, args.column2, args.kernel)
+    
     analyze_smokers_and_COVID()
 
 
