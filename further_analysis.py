@@ -36,8 +36,8 @@ def analyze_vaccination_and_hospitalization():
         Y_fit = model.predict(X_fit)
         plt.figure()
         plt.plot(X_fit, Y_fit)
-        plt.xlabel(target1)
-        plt.ylabel(target2)
+        plt.xlabel(target2)
+        plt.ylabel(target1)
         plt.savefig("./result/" + target1  + "_relation_with" + target2 + ".png")        
         
     analyzer("weekly_icu_admissions_per_million","people_vaccinated_per_hundred","rbf")
