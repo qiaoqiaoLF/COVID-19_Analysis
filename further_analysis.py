@@ -290,7 +290,7 @@ def analyze_economy_and_COVID():
      
 
 def analyze_GDP_and_COVID():
-    data_OWID = load_data.read_data("D:/git/COVID-19_Analysis/data/owid-covid-data.csv")
+    data_OWID = load_data.read_data("./data/owid-covid-data.csv")
     data_OWID = load_data.extract_data(
         data_OWID, ["location", "new_cases_per_million", "gdp_per_capita"]
     )
@@ -310,27 +310,27 @@ def analyze_GDP_and_COVID():
     plt.scatter(gdp, new_cases)
     plt.xlabel("GDP per capita")
     plt.ylabel("Average new cases per million")
-    plt.savefig("D:/git/COVID-19_Analysis/result/GDP_relation_with_cases_raw.png")
+    plt.savefig("./result/GDP_relation_with_cases_raw.png")
     from sklearn.svm import SVR
     
-    model = SVR(kernel="poly")
+    model = SVR(kernel="rbf")
     model.fit(np.array(gdp).reshape(-1, 1), new_cases)
 
     X_fit = np.arange(gdp.max()).reshape(-1, 1)
     Y_fit = model.predict(X_fit)
     plt.figure()
     plt.plot(X_fit, Y_fit)
-    plt.ylabel("Average new cases per million")
+    plt.ylabel("Total cases per million")
     plt.xlabel("GDP per capita")
-    plt.savefig("D:/git/COVID-19_Analysis/result/GDP_relation_with_cases.png")
+    plt.savefig("./result/GDP_relation_with_cases.png")
     
 
 
 def main():
-    analyze_vaccination_and_hospitalization()
-    analyze_smokers_and_COVID()
-    analyze_policy_and_COVID()
-    analyze_economy_and_COVID()
+    # analyze_vaccination_and_hospitalization()
+    # analyze_smokers_and_COVID()
+    # analyze_policy_and_COVID()
+    # analyze_economy_and_COVID()
     analyze_GDP_and_COVID()
 
 main()
