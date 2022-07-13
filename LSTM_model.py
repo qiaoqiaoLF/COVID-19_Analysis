@@ -83,7 +83,7 @@ class LSTM(nn.Module):
 
 # 模型训练
 model = LSTM()
-optimzer = torch.optim.Adam(model.parameters(), lr=0.01)
+optimzer = torch.optim.Adam(model.parameters(), lr=0.002)
 loss_func = nn.MSELoss()
 model.train()
 l = []

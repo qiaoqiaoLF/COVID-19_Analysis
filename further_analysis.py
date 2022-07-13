@@ -15,7 +15,7 @@ from sklearn.svm import SVR
 
 
 def analyze_vaccination_and_hospitalization():
-    def analyzer(target1,target2,knl):
+    def analyzer(target1,target2,knl,factor_name1,factor_name2):
         """helper function to analyze the relation between vaccination and COVID
 
         Args:
@@ -36,16 +36,16 @@ def analyze_vaccination_and_hospitalization():
         Y_fit = model.predict(X_fit)
         plt.figure()
         plt.plot(X_fit, Y_fit)
-        plt.xlabel(target2)
-        plt.ylabel(target1)
-        plt.savefig("./result/" + target1  + "_relation_with" + target2 + ".png")        
+        plt.xlabel(factor_name2)
+        plt.ylabel(factor_name1)
+        plt.savefig("./result/" + factor_name1  + "_relation_with" + factor_name2 + ".png")        
         
-    analyzer("weekly_icu_admissions_per_million","people_vaccinated_per_hundred","rbf")
-    analyzer("weekly_icu_admissions_per_million","people_fully_vaccinated_per_hundred","rbf")
-    analyzer("weekly_icu_admissions_per_million","total_boosters_per_hundred","rbf")
-    analyzer("weekly_hosp_admissions_per_million","people_vaccinated_per_hundred","rbf")
-    analyzer("weekly_hosp_admissions_per_million","people_fully_vaccinated_per_hundred","rbf")
-    analyzer("weekly_hosp_admissions_per_million","total_boosters_per_hundred","poly")
+    analyzer("weekly_icu_admissions_per_million","people_vaccinated_per_hundred","rbf",'icu index','vaccination rate')
+    analyzer("weekly_icu_admissions_per_million","people_fully_vaccinated_per_hundred","rbf",'icu index','fully vaccinated rate')
+    analyzer("weekly_icu_admissions_per_million","total_boosters_per_hundred","rbf", 'icu index','boosters rate')
+    analyzer("weekly_hosp_admissions_per_million","people_vaccinated_per_hundred","rbf",'hosp index','vaccination rate')
+    analyzer("weekly_hosp_admissions_per_million","people_fully_vaccinated_per_hundred","rbf", 'hosp index','fully vaccinated rate')
+    analyzer("weekly_hosp_admissions_per_million","total_boosters_per_hundred","poly",'hosp index','boosters rate')
 
 
 def analyze_smokers_and_COVID():
@@ -230,13 +230,71 @@ def analyze_policy_and_COVID():
     plt.plot(date_iter.squeeze(),policy_container)
     plt.savefig( "./result/policy_relation_with_date.png")
     
+def analyze_economy_and_COVID():
+    #human_development_index
+    data_OWID = load_data.read_data("./data/owid-covid-data.csv")
+    data_OWID = load_data.extract_data(
+        data_OWID, ["date", "new_cases_per_million", "gdp_per_capita", 'human_development_index']
+    )
+
+    new_cases = np.array(data_OWID["new_cases_per_million"])
+    economy = np.array(data_OWID["gdp_per_capita"])
+    development = np.array(data_OWID['human_development_index'])
+
+    valid_economy_cases = (~np.isnan(new_cases)) * (~np.isnan(economy))
+    valid_development_cases = (~np.isnan(new_cases)) * (~np.isnan(development))
+    
+    container_economy_cases = []
+    for i in range(0,110000,10000):
+        container_economy_cases.append(
+            new_cases[valid_economy_cases][
+                (
+                    (economy[valid_economy_cases] >= i)
+                    * (economy[valid_economy_cases] < i + 10000)
+                )
+            ].mean()
+        )  
+    container_development_cases = []
+    for i in np.linspace(0.4,0.9,12):
+        container_development_cases.append(
+            new_cases[valid_development_cases][
+                (
+                    (development[valid_development_cases] >= i)
+                    * (development[valid_development_cases] < i + 0.05)
+                )
+            ].mean()
+        )      
+     
+    plt.figure()
+    plt.scatter(economy[valid_economy_cases], new_cases[valid_economy_cases])
+    plt.ylabel("new cases per million")
+    plt.xlabel("GDP per capita")
+    plt.savefig("./result/economy_relation_with_cases_raw.png")
+    plt.figure()
+    plt.scatter(development[valid_development_cases], new_cases[valid_development_cases])
+    plt.ylabel("new cases per million")
+    plt.xlabel("Human development index")
+    plt.savefig("./result/development_relation_with_cases_raw.png")
+    
+    plt.figure()
+    plt.plot(list(range(0,110000,10000)), container_economy_cases)
+    plt.ylabel("Average new cases per million")
+    plt.xlabel("GDP per capita")
+    plt.savefig("./result/economy_relation_with_cases.png")
+    plt.figure()
+    plt.plot( np.linspace(0.4,0.9,12), container_development_cases)
+    plt.ylabel("Average new cases per million")
+    plt.xlabel("Human development index")
+    plt.savefig("./result/development_relation_with_cases.png")
+     
+
 
 
 
 def main():
-    analyze_vaccination_and_hospitalization()
-    analyze_smokers_and_COVID()
-    analyze_policy_and_COVID()
-
+    # analyze_vaccination_and_hospitalization()
+    # analyze_smokers_and_COVID()
+    # analyze_policy_and_COVID()
+    analyze_economy_and_COVID()
 
 main()
