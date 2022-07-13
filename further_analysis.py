@@ -112,6 +112,7 @@ def analyze_smokers_and_COVID():
     plt.figure()
     plt.bar(["0-20", "20-40", "40-60", "60-80"], height=average_death_rate)
     plt.ylabel("Average Death Rate")
+    plt.xlabel("Smokers Share")
     plt.savefig("./result/death_relation_with_smokers.png")
 
     average_icu_rate = []
@@ -129,7 +130,7 @@ def analyze_smokers_and_COVID():
     plt.figure()
     plt.bar(["< 40", " > 40"], height=average_icu_rate)
     plt.xlabel("Smokers share")
-    plt.ylabel("Average ICU admissions rate")
+    plt.ylabel("Average ICU admissions index")
     plt.savefig("./result/icu_relation_with_smokers.png")
 
     average_hosp_rate = []
@@ -147,7 +148,7 @@ def analyze_smokers_and_COVID():
     plt.figure()
     plt.bar(["< 40", " > 40"], height=average_hosp_rate)
     plt.xlabel("Smokers share")
-    plt.ylabel("Average hospital admission rate")
+    plt.ylabel("Average hospital admission index")
     plt.savefig("./result/hosp_relation_with_smokers.png")
 
 
@@ -292,9 +293,9 @@ def analyze_economy_and_COVID():
 
 
 def main():
-    # analyze_vaccination_and_hospitalization()
-    # analyze_smokers_and_COVID()
-    # analyze_policy_and_COVID()
+    analyze_vaccination_and_hospitalization()
+    analyze_smokers_and_COVID()
+    analyze_policy_and_COVID()
     analyze_economy_and_COVID()
 
 main()

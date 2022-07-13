@@ -129,5 +129,5 @@ plt.plot(
     c="y",
 )
 plt.legend()
-plt.show()
+plt.savefig("./result/LSTM_model.png")
 

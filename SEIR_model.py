@@ -265,15 +265,14 @@ class SEIRSModel():
 
         import matplotlib.pyplot as pyplot
 
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         # Create an Axes object if None provided:
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         if(not ax):
             fig, ax = pyplot.subplots()
 
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
         # Prepare data series to be plotted:
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         Fseries     = self.numF/self.N if plot_percentages else self.numF
         Eseries     = self.numE/self.N if plot_percentages else self.numE
         Dseries     = (self.numQ_E+self.numQ_I)/self.N if plot_percentages else (self.numQ_E+self.numQ_I)
@@ -283,9 +282,9 @@ class SEIRSModel():
         Rseries     = self.numR/self.N if plot_percentages else self.numR
         Sseries     = self.numS/self.N if plot_percentages else self.numS 
 
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
         # Draw the reference data:      
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         if(dashed_reference_results):
             dashedReference_tseries  = dashed_reference_results.tseries[::int(self.N/100)]
             dashedReference_IDEstack = (dashed_reference_results.numI + dashed_reference_results.numQ_I + dashed_reference_results.numQ_E + dashed_reference_results.numE)[::int(self.N/100)] / (self.N if plot_percentages else 1)
