@@ -324,6 +324,45 @@ def analyze_GDP_and_COVID():
     plt.xlabel("GDP per capita")
     plt.savefig("./result/GDP_relation_with_cases.png")
     
+    
+def analyze_Population_and_COVID():
+    data_OWID = load_data.read_data("./data/owid-covid-data.csv")
+    data_OWID = load_data.extract_data(
+        data_OWID, ["location", "new_cases_per_million", "population_density"]
+    )
+
+    
+    pop = data_OWID["population_density"].groupby(data_OWID["location"])
+    new_cases = data_OWID["new_cases_per_million"].groupby(data_OWID["location"])
+    pop= pop.mean()
+    new_cases= new_cases.sum()
+    valid_pop = (~np.isnan(pop)) * (~np.isnan(new_cases))
+    valid_new_cases = (~np.isnan(new_cases)) * (~np.isnan(pop))
+    pop = pop[valid_pop]
+    new_cases = new_cases[valid_new_cases]
+    
+
+    
+    plt.figure()
+    plt.scatter(pop, new_cases)
+    plt.xlabel("population_density")
+    plt.ylabel("Average new cases per million")
+    plt.savefig("./result/population_density_relation_with_cases_raw.png")
+    
+    from sklearn.svm import SVR
+    
+    model = SVR(kernel = 'rbf')
+    model.fit(np.array(pop).reshape(-1, 1), new_cases)
+
+    X_fit = np.arange(pop.max()).reshape(-1, 1)
+    Y_fit = model.predict(X_fit)
+    
+    plt.figure()
+    plt.plot(X_fit, Y_fit)
+    plt.ylabel("Average new cases per million")
+    plt.xlabel("population_density")
+    plt.savefig("./result/population_density_relation_with_cases.png")
+    
 
 
 def main():
@@ -331,6 +370,7 @@ def main():
     # analyze_smokers_and_COVID()
     # analyze_policy_and_COVID()
     # analyze_economy_and_COVID()
-    analyze_GDP_and_COVID()
+    #analyze_GDP_and_COVID()
+    analyze_Population_and_COVID()
 
 main()
