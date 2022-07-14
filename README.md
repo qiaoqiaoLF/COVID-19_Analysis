@@ -28,10 +28,13 @@ import folium
 |    :---:   |
 | Vaccination |
 |Confirmed cases|
-| Confirmed deaths|
+|Confirmed deaths|
 |Hospital & ICU|
 |Reproduction rate|
 |Policy responses|
+|Smokers|
+|Population|
+|Economy|
 |Other variables of interest|
 
 ### Impact of Different Variants of COVID-19
