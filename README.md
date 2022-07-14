@@ -17,6 +17,7 @@ import sklearn
 import plotly
 import numpy
 import scipy
+import folium
 ```
 
 ## Componets
