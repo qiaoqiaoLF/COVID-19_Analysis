@@ -309,7 +309,7 @@ def analyze_GDP_and_COVID():
     plt.figure()
     plt.scatter(gdp, new_cases)
     plt.xlabel("GDP per capita")
-    plt.ylabel("Average new cases per million")
+    plt.ylabel("Total cases per million")
     plt.savefig("./result/GDP_relation_with_cases_raw.png")
     from sklearn.svm import SVR
     
