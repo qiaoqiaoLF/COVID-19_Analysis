@@ -91,7 +91,7 @@ optimzer = torch.optim.Adam(model.parameters(), lr=0.002)
 loss_func = nn.MSELoss()
 model.train()
 l = []
-epochs = 100
+epochs = 1000
 for i in range(epochs):
     for X,Y in TRAIN:
         output = model(X)
@@ -100,7 +100,7 @@ for i in range(epochs):
         optimzer.zero_grad()
         loss.backward()
         optimzer.step()
-        if i % 10 == 9:
+        if i % 100 == 99:
             print("i:{}, train_loss:{}".format(i + 1, loss))
 
 y_train_predict = model(train_X)
