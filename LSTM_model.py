@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import load_data
 import math
+from torch.utils import data
 
 
 def normalize(data):
@@ -65,12 +66,15 @@ test_Y = torch.tensor(
     data_cases[-sequence_length_Y:].reshape(-1, sequence_length_Y), dtype=torch.float
 )
 
+X_dataset = data.TensorDataset(train_X, train_Y)
+TRAIN = data.DataLoader(X_dataset ,batch_size=32, shuffle=True)
+
 
 class LSTM(nn.Module):
     def __init__(self):
         super(LSTM, self).__init__()
         self.lstm = nn.LSTM(
-            input_size=1, hidden_size=100, num_layers=1, batch_first=True
+            input_size=1, hidden_size=100, num_layers=2, batch_first=True
         )
         self.linear = nn.Linear(100 * sequence_length_X, sequence_length_Y)
 
@@ -87,17 +91,17 @@ optimzer = torch.optim.Adam(model.parameters(), lr=0.002)
 loss_func = nn.MSELoss()
 model.train()
 l = []
-epochs = 10000
+epochs = 100
 for i in range(epochs):
-    output = model(train_X)
-    loss = loss_func(output, train_Y)
-    l.append(loss)
-    optimzer.zero_grad()
-    loss.backward()
-    optimzer.step()
-    if i % 100 == 99:
-        print("i:{}, train_loss:{}".format(i + 1, loss))
-
+    for X,Y in TRAIN:
+        output = model(X)
+        loss = loss_func(output, Y)
+        l.append(loss)
+        optimzer.zero_grad()
+        loss.backward()
+        optimzer.step()
+        if i % 10 == 9:
+            print("i:{}, train_loss:{}".format(i + 1, loss))
 
 y_train_predict = model(train_X)
 y_test_predict = model(test_X)
