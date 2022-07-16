@@ -17,6 +17,7 @@ import sklearn
 import plotly
 import numpy
 import scipy
+import folium
 ```
 
 ## Componets
@@ -27,10 +28,13 @@ import scipy
 |    :---:   |
 | Vaccination |
 |Confirmed cases|
-| Confirmed deaths|
+|Confirmed deaths|
 |Hospital & ICU|
 |Reproduction rate|
 |Policy responses|
+|Smokers|
+|Population|
+|Economy|
 |Other variables of interest|
 
 ### Impact of Different Variants of COVID-19
