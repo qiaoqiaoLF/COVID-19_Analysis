@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import load_data
 import math
 from torch.utils import data
+import scipy.signal
 
 
 def normalize(data):
@@ -31,7 +32,7 @@ features = np.array(load_data.extract_data(data_raw, ['date'])).reshape(
     -1
 )
 features = np.array(features, dtype=np.datetime64)
-features = np.array(features, dtype=np.int64)
+features = np.array(features, dtype=np.int64) - np.array(features, dtype=np.int64)[0]
 data_days = np.arange(data_cases.shape[0]).reshape(-1)
 data_cases = data_cases[100:]
 data_days = data_days[100:]
@@ -46,9 +47,17 @@ data_cases = data_cases[valid_data]
 data_days = data_days[valid_data]
 leftovers = features.shape[0] % math.lcm(sequence_length_X, sequence_length_Y)
 features = features[leftovers:]
-features = features[valid_data]
+features = features[valid_data] - features[valid_data][0]
 
-
+#距离前一个极小值的天数
+for i in range(len(features)):
+    
+    index = scipy.signal.argrelextrema(data_cases[0: i],np.greater)[0]#(data_cases[0: i], distance=120)[0]
+    if len(index) > 0:
+        features[i] = features[i] - features[index[-1]]
+    #print(index)
+#print(features)
+    
 
 length = data_cases.shape[0] - sequence_length_X - sequence_length_Y
 
@@ -82,10 +91,10 @@ test_X = torch.tensor(
 test_Y = torch.tensor(
     data_cases[-sequence_length_Y:].reshape(-1, sequence_length_Y), dtype=torch.float
 )
-print(train_X.shape)
-print(train_Y.shape)
-print(test_X.shape)
-print(test_Y.shape)
+#print(train_X.shape)
+#print(train_Y.shape)
+#print(test_X.shape)
+#print(test_Y.shape)
 
 class LSTM(nn.Module):
     def __init__(self):
@@ -119,7 +128,7 @@ optimzer = torch.optim.Adam(model.parameters(), lr=0.002)
 loss_func = nn.MSELoss()
 model.train()
 l = []
-epochs = 1000
+epochs = 10000
 for i in range(epochs):
     out = model(train_X)
     loss = loss_func(out, train_Y)
@@ -162,4 +171,3 @@ plt.plot(
 )
 plt.legend()
 plt.savefig("./result/LSTM_model.png")
-
