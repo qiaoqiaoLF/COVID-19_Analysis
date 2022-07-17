@@ -39,12 +39,12 @@ data_days = data_days[valid_data]
 
 length = data_cases.shape[0] - sequence_length_X - sequence_length_Y
 
-data_days_X_train = data_days[:length]
-data_days_X_test = data_days[length:length + sequence_length_Y]
+data_days_X_train = data_days[:length - sequence_length_X]
+data_days_X_test = data_days[length : length + sequence_length_Y]
 
-data_cases_X = np.zeros((length, sequence_length_X))
-data_cases_Y = np.zeros((length, sequence_length_Y))
-for i in range(length):
+data_cases_X = np.zeros((length -sequence_length_X , sequence_length_X))
+data_cases_Y = np.zeros((length - sequence_length_X, sequence_length_Y))
+for i in range(length - sequence_length_X):
     data_cases_X[i, :] = data_cases[i : i + sequence_length_X]
     data_cases_Y[i, :] = data_cases[
         i + sequence_length_X : i + sequence_length_X + sequence_length_Y
