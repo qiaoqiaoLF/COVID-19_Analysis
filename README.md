@@ -47,3 +47,9 @@ import folium
 &ensp; &ensp;&ensp; &ensp;In this part, multiple dimentions will be considered, including continents, countries, degree of development, latitude, climate, vaccinations, policy responses.  
 
 ### COVID-19 LSTM
+
+&ensp; &ensp;&ensp; &ensp;In this part, we will simulate and predict the epidemic situation through the LSTM model.
+
+### COVID-19 SEIR
+
+&ensp; &ensp;&ensp; &ensp;In this part, we will simulate and predict the epidemic situation through the SEIR model.
