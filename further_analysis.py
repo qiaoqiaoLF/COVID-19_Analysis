@@ -363,6 +363,86 @@ def analyze_Population_and_COVID():
     plt.xlabel("population_density")
     plt.savefig("./result/population_density_relation_with_cases.png")
     
+def analyze_handwashing_facilities_and_COVID():
+    data_OWID = load_data.read_data("./data/owid-covid-data.csv")
+    data_OWID = load_data.extract_data(
+        data_OWID, ["location", "new_cases_per_million", "handwashing_facilities"]
+    )
+
+    
+    pop = data_OWID["handwashing_facilities"].groupby(data_OWID["location"])
+    new_cases = data_OWID["new_cases_per_million"].groupby(data_OWID["location"])
+    pop= pop.mean()
+    new_cases= new_cases.sum()
+    valid_pop = (~np.isnan(pop)) * (~np.isnan(new_cases))
+    valid_new_cases = (~np.isnan(new_cases)) * (~np.isnan(pop))
+    pop = pop[valid_pop]
+    new_cases = new_cases[valid_new_cases]
+    
+
+    
+    plt.figure()
+    plt.scatter(pop, new_cases)
+    
+    plt.xlabel("handwashing_facilities")
+    plt.ylabel("Average new cases per million")
+    plt.savefig("./result/handwashing_facilities_relation_with_cases_raw.png")
+    
+    from sklearn.svm import SVR
+    
+    model = SVR(kernel = "rbf")
+    model.fit(np.array(pop).reshape(-1, 1), new_cases)
+
+    X_fit = np.arange(pop.max()).reshape(-1, 1)
+    Y_fit = model.predict(X_fit)
+    
+    plt.figure()
+    plt.plot(X_fit, Y_fit)
+    
+    plt.ylabel("Average new cases per million")
+    plt.xlabel("handwashing_facilities")
+    plt.savefig("./result/handwashing_facilities_relation_with_cases.png")
+      
+def analyze_diabetes_prevalence_and_COVID():
+    data_OWID = load_data.read_data("./data/owid-covid-data.csv")
+    data_OWID = load_data.extract_data(
+        data_OWID, ["location", "new_cases_per_million", "diabetes_prevalence"]
+    )
+
+    
+    pop = data_OWID["diabetes_prevalence"].groupby(data_OWID["location"])
+    new_cases = data_OWID["new_cases_per_million"].groupby(data_OWID["location"])
+    pop= pop.mean()
+    new_cases= new_cases.sum()
+    valid_pop = (~np.isnan(pop)) * (~np.isnan(new_cases))
+    valid_new_cases = (~np.isnan(new_cases)) * (~np.isnan(pop))
+    pop = pop[valid_pop]
+    new_cases = new_cases[valid_new_cases]
+    
+
+    
+    plt.figure()
+    plt.scatter(pop, new_cases)
+    
+    plt.xlabel("diabetes_prevalence")
+    plt.ylabel("Average new cases per million")
+    plt.savefig("./result/diabetes_prevalence_relation_with_cases_raw.png")
+    
+    from sklearn.svm import SVR
+    
+    model = SVR(kernel = "rbf")
+    model.fit(np.array(pop).reshape(-1, 1), new_cases)
+
+    X_fit = np.arange(pop.max()).reshape(-1, 1)
+    Y_fit = model.predict(X_fit)
+    
+    plt.figure()
+    plt.plot(X_fit, Y_fit)
+    
+    plt.ylabel("Average new cases per million")
+    plt.xlabel("diabetes_prevalence")
+    plt.savefig("./result/diabetes_prevalence_relation_with_cases.png")
+      
 
 
 def main():
@@ -371,6 +451,8 @@ def main():
     # analyze_policy_and_COVID()
     # analyze_economy_and_COVID()
     #analyze_GDP_and_COVID()
-    analyze_Population_and_COVID()
+    #analyze_Population_and_COVID()
+    #analyze_handwashing_facilities_and_COVID()
+    analyze_diabetes_prevalence_and_COVID()
 
 main()
