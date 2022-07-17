@@ -9,28 +9,28 @@ class SEIRSModel():
     """
     A class to simulate the Deterministic SEIRS Model
     ===================================================
-    Params: beta    Rate of transmission (exposure) 
-            sigma   Rate of infection (upon exposure) 
-            gamma   Rate of recovery (upon infection) 
-            xi      Rate of re-susceptibility (upon recovery)  
-            mu_I    Rate of infection-related death  
-            mu_0    Rate of baseline death   
-            nu      Rate of baseline birth
+    Params: beta   β  transmissibility β = R0 * γ
+            sigma  σ  rate of progression to infectiousness 
+            gamma  γ  rate of recovery 
+            xi     ξ  Rate of re-susceptibility (upon recovery)  
+            mu_I   μ1 rate of death for hospitalized individuals 
+            mu_0   μ0 Rate of baseline death   
+            nu        Rate of baseline birth
             
-            beta_Q  Rate of transmission (exposure) for individuals with detected infections
-            sigma_Q Rate of infection (upon exposure) for individuals with detected infections
-            gamma_Q Rate of recovery (upon infection) for individuals with detected infections
-            mu_Q    Rate of infection-related death for individuals with detected infections
-            theta_E Rate of baseline testing for exposed individuals
-            theta_I Rate of baseline testing for infectious individuals
-            psi_E   Probability of positive test results for exposed individuals
-            psi_I   Probability of positive test results for exposed individuals
-            q       Probability of quarantined individuals interacting with others
+            beta_Q   βq   transmissibility of quarantined individuals
+            sigma_Q  σq   rate of progression to infectiousness for quarantined individuals
+            gamma_Q  γq   rate of recovery for quarantined individuals
+            mu_Q     μq   rate of death for quarantined individuals
+            theta_E  θe   Rate of baseline testing for exposed individuals
+            theta_I  θi   Rate of baseline testing for infectious individuals
+            psi_E    ψe   Probability of positive test results for exposed individuals
+            psi_I    ψi   Probability of positive test results for exposed individuals
+            q        q    Probability of quarantined individuals interacting with others
             
             initE   Init number of exposed individuals       
             initI   Init number of infectious individuals      
-            initQ_E Init number of detected infectious individuals
-            initQ_I Init number of detected infectious individuals   
+            initQ_E Init number of exposed quarantined individuals
+            initQ_I Init number of infectious quarantined individuals   
             initR   Init number of recovered individuals     
             initF   Init number of infection-related fatalities
                     (all remaining nodes initialized susceptible)   
@@ -92,21 +92,21 @@ class SEIRSModel():
 
         S, E, I, Q_E, Q_I, R, F = variables    # varibles is a list with compartment counts as elements 
 
-        N   = S + E + I + Q_E + Q_I + R
+        N   = S + E + I + Q_E + Q_I + R  #total population
 
-        dS  = - (beta*S*I)/N - q*(beta_Q*S*Q_I)/N + xi*R + nu*N - mu_0*S
+        dS  = - (beta*S*I)/N - q*(beta_Q*S*Q_I)/N + xi*R + nu*N - mu_0*S  #susceptible change
 
-        dE  = (beta*S*I)/N + q*(beta_Q*S*Q_I)/N - sigma*E - theta_E*psi_E*E - mu_0*E
+        dE  = (beta*S*I)/N + q*(beta_Q*S*Q_I)/N - sigma*E - theta_E*psi_E*E - mu_0*E #exposed change
 
-        dI  = sigma*E - gamma*I - mu_I*I - theta_I*psi_I*I - mu_0*I
+        dI  = sigma*E - gamma*I - mu_I*I - theta_I*psi_I*I - mu_0*I #infectious change
 
-        dDE = theta_E*psi_E*E - sigma_Q*Q_E - mu_0*Q_E
+        dDE = theta_E*psi_E*E - sigma_Q*Q_E - mu_0*Q_E #exposed quarantined change
 
-        dDI = theta_I*psi_I*I + sigma_Q*Q_E - gamma_Q*Q_I - mu_Q*Q_I - mu_0*Q_I
+        dDI = theta_I*psi_I*I + sigma_Q*Q_E - gamma_Q*Q_I - mu_Q*Q_I - mu_0*Q_I #infectious quarantined change
 
-        dR  = gamma*I + gamma_Q*Q_I - xi*R - mu_0*R
-
-        dF  = mu_I*I + mu_Q*Q_I
+        dR  = gamma*I + gamma_Q*Q_I - xi*R - mu_0*R #recovered change
+ 
+        dF  = mu_I*I + mu_Q*Q_I  #deaths change
 
         return [dS, dE, dI, dDE, dDI, dR, dF]
 
@@ -268,7 +268,7 @@ class SEIRSModel():
         # Create an Axes object if None provided:
 
         if(not ax):
-            fig, ax = pyplot.subplots()
+            fig, ax = pyplot.subplots(dpi = 300)
 
  
         # Prepare data series to be plotted:
@@ -288,11 +288,11 @@ class SEIRSModel():
         if(dashed_reference_results):
             dashedReference_tseries  = dashed_reference_results.tseries[::int(self.N/100)]
             dashedReference_IDEstack = (dashed_reference_results.numI + dashed_reference_results.numQ_I + dashed_reference_results.numQ_E + dashed_reference_results.numE)[::int(self.N/100)] / (self.N if plot_percentages else 1)
-            ax.plot(dashedReference_tseries, dashedReference_IDEstack, color='#E0E0E0', linestyle='--', label='$I+D+E$ ('+dashed_reference_label+')', zorder=0)
+            ax.plot(dashedReference_tseries, dashedReference_IDEstack, color='#E0E0E0', linestyle='--', label='$I+Q+E$ ('+dashed_reference_label+')', zorder=0)
         if(shaded_reference_results):
             shadedReference_tseries  = shaded_reference_results.tseries
             shadedReference_IDEstack = (shaded_reference_results.numI + shaded_reference_results.numQ_I + shaded_reference_results.numQ_E + shaded_reference_results.numE) / (self.N if plot_percentages else 1)
-            ax.fill_between(shaded_reference_results.tseries, shadedReference_IDEstack, 0, color='#EFEFEF', label='$I+D+E$ ('+shaded_reference_label+')', zorder=0)
+            ax.fill_between(shaded_reference_results.tseries, shadedReference_IDEstack, 0, color='#EFEFEF', label='$I+Q+E$ ('+shaded_reference_label+')', zorder=0)
             ax.plot(shaded_reference_results.tseries, shadedReference_IDEstack, color='#E0E0E0', zorder=1)
 
 
@@ -428,7 +428,7 @@ class SEIRSModel():
 
         import matplotlib.pyplot as pyplot
 
-        fig, ax = pyplot.subplots(figsize=figsize)
+        fig, ax = pyplot.subplots(figsize=figsize,dpi = 300)
 
         if(use_seaborn):
             import seaborn
@@ -463,7 +463,7 @@ class SEIRSModel():
 
         import matplotlib.pyplot as pyplot
 
-        fig, ax = pyplot.subplots(figsize=figsize)
+        fig, ax = pyplot.subplots(figsize=figsize,dpi = 300)
 
         if(use_seaborn):
             import seaborn

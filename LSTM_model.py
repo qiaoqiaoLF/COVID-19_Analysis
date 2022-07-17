@@ -4,7 +4,7 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import load_data
+import load_data 
 import math
 from torch.utils import data
 
@@ -20,7 +20,7 @@ def denormalize(data):
 data_raw = load_data.read_data("./data/owid-covid-data.csv", "location", "World")
 
 sequence_length_X = 50
-sequence_length_Y = 30
+sequence_length_Y = 50
 data_cases = np.array(load_data.extract_data(data_raw, ["new_cases_smoothed"])).reshape(
     -1
 )
@@ -66,8 +66,7 @@ test_Y = torch.tensor(
     data_cases[-sequence_length_Y:].reshape(-1, sequence_length_Y), dtype=torch.float
 )
 
-X_dataset = data.TensorDataset(train_X, train_Y)
-TRAIN = data.DataLoader(X_dataset ,batch_size=32, shuffle=True)
+
 
 
 class LSTM(nn.Module):
@@ -87,11 +86,23 @@ class LSTM(nn.Module):
 
 # 模型训练
 model = LSTM()
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+model.to(device)
+train_X = train_X.to(device)
+train_Y = train_Y.to(device)
+test_X = test_X.to(device)
+test_Y = test_Y.to(device)
+X_dataset = data.TensorDataset(train_X, train_Y)
+TRAIN = data.DataLoader(X_dataset ,batch_size=32, shuffle=True)
+
+
+
 optimzer = torch.optim.Adam(model.parameters(), lr=0.002)
 loss_func = nn.MSELoss()
 model.train()
 l = []
-epochs = 1000
+epochs = 10
 for i in range(epochs):
     for X,Y in TRAIN:
         output = model(X)
@@ -106,32 +117,75 @@ for i in range(epochs):
 y_train_predict = model(train_X)
 y_test_predict = model(test_X)
 
-plt.figure()
+plt.figure(dpi=300)
 plt.plot(
     data_days_X_train.reshape(-1),
-    denormalize(y_train_predict.detach().numpy()[:, 0].reshape(-1)),
+    denormalize(y_train_predict.cpu().detach().numpy()[:, 0].reshape(-1)),
     label="predict train",
     c="b",
 )
 plt.plot(
     data_days_X_train.reshape(-1),
-    denormalize(train_Y.detach().numpy()[:, 0].reshape(-1)),
+    denormalize(train_Y.cpu().detach().numpy()[:, 0].reshape(-1)),
     label="true train",
     c="r",
 )
 
 plt.plot(
     data_days_X_test.reshape(-1),
-    denormalize(y_test_predict.detach().numpy()[:, :].reshape(-1)),
+    denormalize(y_test_predict.cpu().detach().numpy()[:, :].reshape(-1)),
     label="predict test",
     c="g",
 )
 plt.plot(
     data_days_X_test.reshape(-1),
-    denormalize(test_Y.detach().numpy()[:, :].reshape(-1)),
+    denormalize(test_Y.detach().cpu().numpy()[:, :].reshape(-1)),
     label="true test",
     c="y",
 )
 plt.legend()
 plt.savefig("./result/LSTM_model.png")
+
+test_X = torch.tensor(
+    data_cases[-sequence_length_X - sequence_length_Y : -sequence_length_Y].reshape(
+        -1, sequence_length_X, 1
+    ),
+    dtype=torch.float,
+) 
+test_X = test_X.to(device)
+plt.figure(dpi = 500)
+plt.plot(
+    data_days_X_train.reshape(-1),
+    denormalize(y_train_predict.cpu().detach().numpy()[:, 0].reshape(-1)),
+    label="predict train",
+    c="b",
+)
+plt.plot(
+    data_days_X_train.reshape(-1),
+    denormalize(train_Y.cpu().detach().numpy()[:, 0].reshape(-1)),
+    label="true train",
+    c="r",
+)
+
+for i in range(20):
+  
+    y_test_predict = model(test_X)
+
+    if i == 0:
+        Y = y_test_predict
+        DAYS = data_days_X_test.reshape(-1)
+    else:
+        Y = torch.cat((Y,y_test_predict), dim=1)
+        DAYS = np.concatenate((DAYS,data_days_X_test.reshape(-1) + 50 * i), axis=0)
+    test_X = y_test_predict.reshape(
+        -1, sequence_length_X, 1
+    )
+plt.plot(
+      DAYS.reshape(-1),
+      denormalize(Y.cpu().detach().numpy()[:, :].reshape(-1)),
+      label="predict test",
+      c="g",
+  )
+plt.legend()
+plt.show()
 
